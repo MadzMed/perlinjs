@@ -193,14 +193,14 @@ export class Perlin {
 
   private randomSeed(): () => number {
     const mask = 0xffffffff;
-    let m_w = (312445667 + this._seed) & mask;
-    let m_z = (654773356 - this._seed) & mask;
+    let mW = (312445667 + this._seed) & mask;
+    let mZ = (654773356 - this._seed) & mask;
 
-    return function () {
-      m_z = (36969 * (m_z & 65535) + (m_z >>> 16)) & mask;
-      m_w = (18000 * (m_w & 65535) + (m_w >>> 16)) & mask;
+    return () => {
+      mZ = (36969 * (mZ & 65535) + (mZ >>> 16)) & mask;
+      mW = (18000 * (mW & 65535) + (mW >>> 16)) & mask;
 
-      let result = ((m_z << 16) + (m_w & 65535)) >>> 0;
+      let result = ((mZ << 16) + (mW & 65535)) >>> 0;
       result /= 4294967296;
       return result;
     };
