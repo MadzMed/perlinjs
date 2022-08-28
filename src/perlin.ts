@@ -25,8 +25,8 @@ export class Perlin {
   }
 
   noise(x: number = this._x, y: number = this._y, z: number = this._z): number {
-    if (this._y != 0 && this._z != 0) return this.Noise3D(x, y, z);
-    if (this._y != 0) return this.Noise2D(x, y);
+    if (this._y !== 0 && this._z !== 0) return this.Noise3D(x, y, z);
+    if (this._y !== 0) return this.Noise2D(x, y);
     return this.Noise(x);
   }
 
@@ -38,8 +38,8 @@ export class Perlin {
     persistence: number = 2.0,
     lacunarity: number = 0.5,
   ): number {
-    if (x != 0 && y != 0 && z != 0) return this.Fbm3D(octaves, x, y, z, persistence, lacunarity);
-    if (x != 0 && y != 0) return this.Fbm2D(octaves, x, y, persistence, lacunarity);
+    if (x !== 0 && y !== 0 && z !== 0) return this.Fbm3D(octaves, x, y, z, persistence, lacunarity);
+    if (x !== 0 && y !== 0) return this.Fbm2D(octaves, x, y, persistence, lacunarity);
     return this.Fbm(octaves, x, persistence, lacunarity);
   }
 
@@ -165,16 +165,16 @@ export class Perlin {
   }
 
   private Grad(hash: number, x: number, y: number = 0, z: number = 0): number {
-    if (z != 0 && y != 0) {
+    if (z !== 0 && y !== 0) {
       const h = hash & 15;
       const u = h < 8 ? x : y;
-      const v = h < 4 ? y : h == 12 || h == 14 ? x : z;
-      return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
+      const v = h < 4 ? y : h === 12 || h === 14 ? x : z;
+      return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
     }
 
-    if (y != 0) return ((hash & 1) == 0 ? x : -x) + ((hash & 2) == 0 ? y : -y);
+    if (y !== 0) return ((hash & 1) === 0 ? x : -x) + ((hash & 2) === 0 ? y : -y);
 
-    return (hash & 1) == 0 ? x : -x;
+    return (hash & 1) === 0 ? x : -x;
   }
 
   private generatePerm(): void {
@@ -192,15 +192,15 @@ export class Perlin {
   }
 
   private randomSeed(): () => number {
-    var mask = 0xffffffff;
-    var m_w = (312445667 + this._seed) & mask;
-    var m_z = (654773356 - this._seed) & mask;
+    const mask = 0xffffffff;
+    let m_w = (312445667 + this._seed) & mask;
+    let m_z = (654773356 - this._seed) & mask;
 
     return function () {
       m_z = (36969 * (m_z & 65535) + (m_z >>> 16)) & mask;
       m_w = (18000 * (m_w & 65535) + (m_w >>> 16)) & mask;
 
-      var result = ((m_z << 16) + (m_w & 65535)) >>> 0;
+      let result = ((m_z << 16) + (m_w & 65535)) >>> 0;
       result /= 4294967296;
       return result;
     };
